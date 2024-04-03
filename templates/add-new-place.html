@@ -1,0 +1,111 @@
+{% include 'header.html' %}
+
+<div class="container justify-content-center mt-3">
+  <form id="myForm" method="POST">
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+  <div class="form-floating mt-3">
+  <textarea class="form-control" placeholder="Leave a comment here" id="NameTextarea" name="name" required></textarea>
+  <label for="NameTextarea">Name of place</label>
+</div>
+
+    <div class="form-floating mt-3">
+  <textarea class="form-control" placeholder="Leave a comment here" id="Price" name="price" required></textarea>
+  <label for="Price">coffee price (£)</label>
+</div>
+
+  <div class="form-floating mt-3">
+  <textarea class="form-control" placeholder="Leave a comment here" id="MapURLarea" name="map_url" required></textarea>
+  <label for="MapURLarea">Map Url</label>
+</div>
+
+  <div class="form-floating mt-3">
+  <textarea class="form-control" placeholder="Leave a comment here" id="ImgURLarea" name="image_url" required></textarea>
+  <label for="ImgURLarea">Image Url</label>
+</div>
+
+  <div class="form-floating mt-3">
+  <textarea class="form-control" placeholder="Leave a comment here" id="Location" name="location" required></textarea>
+  <label for="Location">Location</label>
+</div>
+
+    <select class="form-select mt-3" aria-label="Default select example" name="have_sockets" required>
+  <option  value="" disabled selected hidden>Have Sockets?</option>
+  <option value="1">Yes</option>
+  <option value="0">No</option>
+</select>
+
+<select class="form-select mt-3" aria-label="Default select example" name="have_toilet" required>
+  <option value="" disabled selected hidden>Have Toilet?</option>
+  <option value="1">Yes</option>
+  <option value="0">No</option>
+</select>
+
+<select class="form-select mt-3" aria-label="Default select example" name="have_wifi" required>
+  <option value="" disabled selected hidden>Have Wifi?</option>
+  <option value="1">Yes</option>
+  <option value="0">No</option>
+</select>
+
+<select class="form-select mt-3" aria-label="Default select example" name="can_take_calls" required>
+  <option value="" disabled selected hidden>can take calls?</option>
+  <option value="1">Yes</option>
+  <option value="0">No</option>
+</select>
+
+<select class="form-select mt-3" aria-label="Default select example" name="seats" required>
+  <option value="" disabled selected hidden>Seats</option>
+  <option value="0-10">0-10</option>
+  <option value="10-20">10-20</option>
+    <option value="20-30">20-30</option>
+    <option value="30-40">30-40</option>
+    <option value="40-50">40-50</option>
+    <option value="50+">50+</option>
+</select>
+  <a type="submit" class="btn btn-primary mt-3 mb-5" onclick="validateForm()">Submit</a>
+  </form>
+</div>
+
+<script>
+  function validateForm() {
+    var form = document.getElementById("myForm");
+    var inputs = form.getElementsByTagName("input");
+    var textareas = form.getElementsByTagName("textarea");
+    var selects = form.getElementsByTagName("select");
+    var isValid = true;
+
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i].hasAttribute("required") && !inputs[i].value) {
+        isValid = false;
+      }
+    }
+
+    for (var i = 0; i < textareas.length; i++) {
+      if (textareas[i].hasAttribute("required") && !textareas[i].value) {
+        isValid = false;
+      }
+    }
+
+    for (var i = 0; i < selects.length; i++) {
+      if (selects[i].hasAttribute("required") && selects[i].value === "") {
+        isValid = false;
+      }
+    }
+
+    if (isValid) {
+      form.submit();
+    } else {
+      alert("Please fill out all required fields.");
+    }
+  }
+</script>
+{% include 'footer.html' %}
+
+    <!--
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises.
+      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+      for more information.
+      -->

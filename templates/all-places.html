@@ -1,0 +1,14 @@
+{% include 'header.html' %}
+
+<div class="text-center justify-content-center"> <!-- Add text-center class here -->
+    <div>
+        <h2>All Cities</h2>
+    </div>
+    {% for cafe in all_cafe %}
+    <a type="button" class="btn btn-secondary mt-3 mb-1" href="{{url_for('view_place', place_id=cafe.id)}}">{{cafe.name}}, {{cafe.location}}</a>
+    {% endfor %}
+</div>
+
+
+
+{% include 'footer.html' %}

@@ -1,0 +1,70 @@
+{% include 'header.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+<div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flashes">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show mb-0", role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+</div>
+
+<div class="position-relative overflow-hidden p-3 p-5 text-center bg-body-tertiary" style="background-image: url('{{ place.img_url }}'); background-size: cover; background-position: center;">
+    <div class="col-md-6 p-lg-5 mx-auto my-5">
+      <div class="d-flex gap-3 justify-content-center lead fw-normal">
+          <h1 style="color: white">{{place.name}}</h1>
+      </div>
+    </div>
+    <div class="product-device shadow-sm d-none d-md-block"></div>
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+  </div>
+<div class="container mt-3 mr-3">
+    <div class="text-star justify-content-center">
+        <p>View on google maps: <a href="{{place.map_url}}" target="_blank">{{place.map_url}}</a></p>
+        <hr>
+        <p>Seats: {{place.seats}}</p>
+        <hr>
+        <p>Coffee price: £{{place.coffee_price}}</p>
+        <hr>
+        <p>Has sockets: {% if place.has_sockets %}Yes{% else %}No{% endif %}</p>
+        <hr>
+        <p>Has toilet: {% if place.has_toilet %}Yes{% else %}No{% endif %}</p>
+        <hr>
+        <p>Has WiFi: {% if place.has_wifi %}Yes{% else %}No{% endif %}</p>
+        <hr>
+        <p>Can take calls: {% if place.can_take_calls %}Yes{% else %}No{% endif %}</p>
+        {{ review_form.csrf_token }}
+        {{ render_form(review_form) }}
+
+        {% for comment in comments %}
+        <div class="comment mt-5 mb-0">
+          <ul class="commentList">
+            <li>
+              <div class="commenterImage" style="float: left; margin-right: 10px;">
+                <img src="{{ comment.user.email | gravatar }}" style="border-radius: 50%;">
+              </div>
+              <div style="overflow: hidden;">
+                <div style="color: grey; font-size: 14px;" class="mb-0">{{ comment.user.username }}</div>
+                <div style="font-size: 16px; margin-bottom: 5px;" class="mb-0">{{ comment.review }}</div>
+                {% if current_user.id==1 %}
+                <div style="color: grey; font-size: 14px;" class="mb-0">
+                  <a href="{{url_for('delete_comment', id=comment.id)}}" style="display: inline-block;">✘</a>
+                </div>
+                {% endif %}
+              </div>
+              <div style="clear: both;"></div>
+            </li>
+          </ul>
+        </div>
+         {% endfor %}
+
+    </div>
+</div>
+
+{% include 'footer.html' %}

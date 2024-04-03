@@ -1,0 +1,59 @@
+{% include 'header.html' %}
+<style>
+    .place-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.image-container {
+    flex: 0 0 auto;
+    margin-right: 10px; /* Adjust as needed */
+}
+
+.place-image {
+    max-width: 200px; /* Adjust as needed */
+    max-height: 150px; /* Adjust as needed */
+}
+
+.place-details {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.place-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.action-links {
+    display: flex;
+}
+
+.decline-link,
+.accept-link {
+    margin-right: 10px;
+}
+</style>
+<div class="container justify-content-center">
+{% for place in unverified_places %}
+<div class="place-container justify-content-center mt-3 mb-3">
+    <div class="image-container">
+        <a href="{{url_for('view_place', place_id=place.id)}}">
+        <img src="{{ place.img_url }}" class="place-image">
+        </a>
+    </div>
+    <div class="place-details">
+        <div class="place-name">
+            {{ place.name }}--{{place.location}}
+        </div>
+        <div class="action-links">
+            <a href="{{url_for('delete_cafe', id=place.id)}}" class="decline-link">Decline</a>
+            <a href="{{url_for('accept_cafe', id=place.id)}}" class="accept-link">Accept</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+    </div>
+
+{% include 'footer.html' %}
