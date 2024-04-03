@@ -1,6 +1,7 @@
 import hashlib
 import os
 from functools import wraps
+from dotenv import load_dotenv
 from flask_gravatar import Gravatar
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Mail, Message
@@ -16,20 +17,22 @@ from wtforms import StringField, SubmitField, Form, PasswordField, validators, E
 from flask_ckeditor import CKEditorField
 from wtforms.validators import DataRequired, Length
 
+load_dotenv()
+
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 ckeditor = CKEditor(app)
 
 app.config['CKEDITOR_PKG_TYPE'] = 'standard'
-app.secret_key = 'SonyL1/123Heyzxyzsyn'
+app.secret_key = os.getenv('SECRET_KEY')
 
-GOOGLE_CLIENT_ID = '606238041999-qj5dqr7tjahia7pk0ogvliqrvn3dgl17.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = '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'
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 
-app.config['RECAPTCHA_PUBLIC_KEY'] = '6LfpP1kpAAAAAHOzELguW7msMWfI4tIQQ0i0Ego-'
-app.config['RECAPTCHA_PRIVATE_KEY'] = '6LfpP1kpAAAAADHMK9pcfoSv-aXqeaP9VCWf6ETl'
+app.config['RECAPTCHA_PUBLIC_KEY'] = os.getenv('RECAPTCHA_PUBLIC_KEY')
+app.config['RECAPTCHA_PRIVATE_KEY'] = os.getenv('RECAPTCHA_PRIVATE_KEY')
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
@@ -40,8 +43,8 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_DEBUG'] = True
-app.config['MAIL_USERNAME'] = '12345ashermalik@gmail.com'
-app.config['MAIL_PASSWORD'] = 'eudpegvgpqmxbrmf'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 
 app.config.update(dict(
     MAIL_DEFAULT_SENDER="noreply@flask.com",
@@ -50,8 +53,8 @@ app.config.update(dict(
     MAIL_PORT = 587,
     MAIL_USE_TLS = True,
     MAIL_USE_SSL = False,
-    MAIL_USERNAME = '12345ashermalik@gmail.com',
-    MAIL_PASSWORD = 'eudpegvgpqmxbrmf',
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME'),
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD'),
 ))
 
 global google_check
